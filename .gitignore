@@ -1,0 +1,64 @@
+# Build trees
+/build/
+/build-*/
+/out/
+/install/
+/stage/
+/_deps/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+CMakeUserPresets.json
+cmake_install.cmake
+CTestTestfile.cmake
+Testing/
+*.cmake.stamp
+
+# Visual Studio / MSVC
+.vs/
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+*.user
+*.aps
+*.pch
+*.ipch
+*.obj
+*.o
+*.exe
+*.pdb
+*.ilk
+*.idb
+*.exp
+*.lib
+*.dll
+*.so
+*.dylib
+*.a
+*.out
+
+# Ninja / Make
+.ninja_deps
+.ninja_log
+build.ninja
+Makefile
+*.ninja
+compile_commands.json
+
+# Scratch / runtime state
+*.tmp
+*.log
+*.fptmp
+/scratch/
+/bench-out/
+
+# Editor and OS noise
+.DS_Store
+Thumbs.db
+desktop.ini
+*.swp
+*~
+.vscode/
+.idea/
