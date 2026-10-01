@@ -278,12 +278,12 @@ It may be ```unknown``` (the default) or ```refuse```. It may not be ```allow```
 
 ### Outcomes
 
-- **allow** â€” permission established, with the obligations of the deciding rules.
-- **refuse** â€” prohibition established, either by a matched refusal or by a rule that declared
+- **allow** — permission established, with the obligations of the deciding rules.
+- **refuse** — prohibition established, either by a matched refusal or by a rule that declared
   that its own uncertainty means refusal.
-- **defer** â€” no rule in the deciding band established permission or prohibition, and none was
+- **defer** — no rule in the deciding band established permission or prohibition, and none was
   undecided either: the decision is explicitly not this engine's to make.
-- **unknown** â€” permission could not be established. This is a decision, not an error, and it
+- **unknown** — permission could not be established. This is a decision, not an error, and it
   carries the same full attribution as any other.
 
 ### Explanation
@@ -390,7 +390,7 @@ refuses to publish.
 Recovery is explicit and never guesses. The operator names exactly one generation;
 ```recover_to``` verifies that record completely, verifies its link to its predecessor, and
 rebuilds the manifest from it under a control epoch strictly newer than every epoch any record
-in the store has ever named â€” so recovery itself cannot resurrect authority that a previous
+in the store has ever named — so recovery itself cannot resurrect authority that a previous
 incarnation held.
 
 A store whose manifest is missing while generation records are present is not an empty store.
@@ -404,7 +404,7 @@ monotonic publication sequence and a rollback floor. Opening refuses a manifest 
 generation is below its own floor. A record that does not link to its predecessor, a sequence
 that does not increase, or a store identity that changes mid-history are all refused.
 
-A store directory that is rolled back *in its entirety* â€” manifest, records, and all â€” is
+A store directory that is rolled back *in its entirety* — manifest, records, and all — is
 internally consistent, and nothing inside it can reveal the rollback. That is what **anchors**
 are for. ```fpe store anchor``` writes a small out-of-band document recording the store identity,
 generation, sequence, and manifest digest, and ```--anchor``` checks a store against it. Without
@@ -499,8 +499,8 @@ the lowest code is reported and the others are kept:
 | 8xx | resource limits |
 | 9xx | evaluation, decision, fencing |
 
-Two consequences matter in practice. A structural precondition â€” a buffer long enough to hold
-the fixed fields â€” is checked before field-level validation, because the fields cannot be read
+Two consequences matter in practice. A structural precondition — a buffer long enough to hold
+the fixed fields — is checked before field-level validation, because the fields cannot be read
 otherwise; everything after that follows the table. And a limit breach produces no decision at
 all rather than a decision of convenience: the evaluator reports ```evaluation-limit-reached```
 and returns no artifact.
@@ -769,8 +769,8 @@ self-test passes, and the full suite passes with no address or leak reports.
 processes, not threads and not simulation:
 
 - a second process is refused ```lock-held``` while a first process holds the writer;
-- after the holder is terminated abruptly with ```TerminateProcess``` â€” no cleanup, no unwinding
-  â€” the lock is released by the kernel and the next writer acquires it;
+- after the holder is terminated abruptly with ```TerminateProcess``` — no cleanup, no unwinding
+  — the lock is released by the kernel and the next writer acquires it;
 - three reader processes repeatedly open the store and evaluate while the parent publishes 25
   generations; every reader completes every iteration, every artifact verifies, and no reader
   ever observes a partially published generation;
@@ -779,8 +779,8 @@ processes, not threads and not simulation:
   resolves, and a new generation can be published.
 
 **Corruption and truncation.** For a store with one published generation, every single-bit
-flip in the manifest and in the generation record â€” every byte offset, including header,
-digest, reserved, and payload regions â€” was applied and the store was required to refuse to
+flip in the manifest and in the generation record — every byte offset, including header,
+digest, reserved, and payload regions — was applied and the store was required to refuse to
 open. Every prefix of both files shorter than the declared length was applied and refused, and
 a one-byte extension of both files was refused as trailing content. A store whose manifest is
 missing while records are present was refused as ```corrupt-manifest``` and recovered only by
@@ -791,8 +791,8 @@ out-of-tree CMake project that configures against that prefix alone with
 ```find_package(FacilityPolicyEngine CONFIG REQUIRED)```, builds, and runs its own CTest cases
 covering allow, refuse, unknown, and stale-fencing behaviour through the public API.
 
-**Fresh clone.** The release commit was cloned into a clean directory and the whole sequence â€”
-configure, build, test, install, and downstream consumer â€” was run from that clone.
+**Fresh clone.** The release commit was cloned into a clean directory and the whole sequence —
+configure, build, test, install, and downstream consumer — was run from that clone.
 
 **Benchmarks.** Run three times on an otherwise idle host; see below.
 
@@ -809,7 +809,7 @@ These were found during this work, not hypothesised. Each one is fixed in the re
    any test covered it. Fixed by defining the covered range identically in both directions and
    documenting it at the encoding site.
 2. **Named predicates were never registered with the evaluator.** A condition that referenced
-   a named predicate evaluated to unknown â€” fail-closed, but wrong, and it silently disabled
+   a named predicate evaluated to unknown — fail-closed, but wrong, and it silently disabled
    every reusable predicate in every policy. Found by inspecting a real refusal that should
    have come from a named predicate. Fixed by resolving predicate bodies across the whole
    dependency closure when the evaluator is constructed.
@@ -860,7 +860,7 @@ These were found during this work, not hypothesised. Each one is fixed in the re
 ## Benchmarks
 
 ```bench/fpe_bench.cpp``` measures completed operations only. The durable figure includes the
-whole durable path â€” stage, flush, read back and verify, and the atomic replacement â€” because
+whole durable path — stage, flush, read back and verify, and the atomic replacement — because
 that path is the guarantee. Warm-up runs are excluded. No speedup or before/after claim is
 made, and none can be derived from these numbers.
 
