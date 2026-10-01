@@ -135,9 +135,9 @@ configuration file, or bundle can raise a ceiling.
 A fact is declared with a key, a value domain, and optionally the authority that owns it, the
 scope it belongs to, and whether the bundle requires it:
 
-```@json
+```json
 {"key": "zone.temperature", "type": "quantity", "authority": "thermal-control", "required": true}
-```@
+```
 
 The value domains are closed: ```boolean```, ```integer```, ```symbol```, ```text```, ```symbol-set```,
 and ```quantity``` (an integer magnitude with an explicit unit symbol). There is no floating
@@ -155,13 +155,13 @@ distinct authority generation that contributed to it.
 
 Conditions are a bounded, closed expression language over declared facts:
 
-```@json
+```json
 {"all": [ ... ]}
 {"any": [ ... ]}
 {"not": { ... }}
 {"test": {"fact": "zone.temperature", "op": "greater-or-equal", "operands": [{"magnitude": 35, "unit": "celsius"}]}}
 {"named": "zone.hot"}
-```@
+```
 
 The operators are ```exists```, ```not-exists```, ```is-unknown```, ```is-stale```, ```is-missing```,
 ```equals```, ```not-equals```, ```less-than```, ```less-or-equal```, ```greater-than```,
@@ -179,7 +179,7 @@ checked for cycles at compile time, deterministically and with the cycle named i
 
 ### Rules
 
-```@json
+```json
 {
   "id": "refuse.hot.zone",
   "priority": 100,
@@ -191,7 +191,7 @@ checked for cycles at compile time, deterministically and with the cycle named i
   "reason": "thermal.zone-too-hot",
   "description": "Refuse work in a zone above the thermal limit"
 }
-```@
+```
 
 - ```priority``` decides which rules are even considered: only the highest priority band that is
   not provably inapplicable can decide.
@@ -210,9 +210,9 @@ checked for cycles at compile time, deterministically and with the cycle named i
 A bundle may import other bundles. An import binds to the **exact digest** of the imported
 canonical bundle:
 
-```@json
+```json
 {"imports": [{"bundle": "thermal.limits", "digest": "6f1c...e4"}]}
-```@
+```
 
 There is no version range and no "latest". A policy set cannot silently pick up a different
 upstream bundle, because a different bundle has a different digest and the import is refused.
@@ -341,12 +341,12 @@ fences every decision made before it.
 
 ### Layout
 
-```@
+```
 <store>/
   MANIFEST.bin      fixed 184-byte record; atomically replaced; names the current generation
   LOCK              the single-writer lock file; never read, only held
   gen/<16 hex>.fpg  immutable published generation records
-```@
+```
 
 ### Format
 
@@ -513,7 +513,7 @@ decision that is no longer current), and ```3``` for unknown or defer.
 
 ## Command line interface
 
-```@
+```
 fpe <command> [options]
 
 Policy documents
@@ -536,11 +536,11 @@ Decisions
   appraise <dir> --input <facts.json>     Report how every declared fact is seen
   decision verify <artifact.json>         Verify a decision artifact
   selftest                                Run built-in known-answer checks
-```@
+```
 
 ### A complete worked example
 
-```@console
+```console
 $ fpe policy check thermal.json
 bundle          facility.thermal
 revision        1
@@ -576,14 +576,14 @@ artifact digest  b58e3e27431c8c7c132388780de39669f54d2d193fd86a68aba361de21d762a
   rule 'refuse.hot.zone' priority 100 effect refuse -> matched (none) reason thermal.zone-too-hot
   authority 'tenant-registry' generation 2 digest 2222...2222
   authority 'thermal-control' generation 4 digest 1111...1111
-```@
+```
 
 The exit code is ```2```, because the decision was a refusal. A script that only needs the
 outcome never has to parse the text.
 
 ### Machine-readable output and verification
 
-```@console
+```console
 $ fpe eval ./facility-policy --input facts.json --json > decision.json
 $ fpe decision verify decision.json --store ./facility-policy
 artifact digest  701348daca21013d629f121830b1524d29c7d62b5dd7c9feb4e9c84ab99c90a2
@@ -593,14 +593,14 @@ bundle digest    5a1c68bb4126e07bd0525feb473e5516de0141afb13c3c53d893a93aadfc1ac
 input digest     d2ce31370dadcc862b2e73f65bfc7d37b1c33a4c3cdfba5a42a780c1a6bef4e6
 fence            current
 fence detail     decision matches the current policy generation and control epoch
-```@
+```
 
 Editing one byte of ```decision.json``` makes the verification fail rather than succeed with a
 different decision.
 
 ### Detecting a rollback
 
-```@console
+```console
 $ fpe store anchor ./facility-policy --out policy.anchor
 anchored generation 1 sequence 1 manifest e24b97d71c5365e1e26b93e26fbdf829d1e106d27faef4a39dee24dc70afdffb to policy.anchor
 
@@ -610,14 +610,14 @@ verified 1 generation record(s)
 # ... the store directory is destroyed and recreated empty ...
 $ fpe store verify ./facility-policy --anchor policy.anchor
 store verify: digest-binding-mismatch: anchor names store 367dd30c... but this store is ...
-```@
+```
 
 Recreating the store produces a directory that is internally consistent in every byte. Only
 the out-of-band anchor can reveal that it is not the store the operator had.
 
 ### Self-verification
 
-```@console
+```console
 $ fpe selftest
 PASS sha256-empty
 PASS sha256-abc
@@ -630,7 +630,7 @@ PASS input-set-builds
 PASS evaluation-runs
 PASS undecided-refusal-blocks-allow
 selftest passed
-```@
+```
 
 ```fpe selftest``` runs known-answer vectors and end-to-end invariants from the installed
 binary, so an installed artifact can be checked without the source tree or the test suite.
@@ -647,7 +647,7 @@ code is enabled so the static library can be embedded into a shared object by a 
 A complete consumer that loads a published generation, evaluates typed facts, and fences the
 result lives in ```examples/facility-policy-gate```. Its core is:
 
-```@cpp
+```cpp
 #include "fpe/runtime.hpp"
 
 // Open the published policy. This takes no lock and changes nothing.
@@ -678,7 +678,7 @@ auto fence = runtime.value().fence(artifact.value());
 if (fence && !fence.value().is_current()) {
   abandon(artifact.value(), fence.value().status);
 }
-```@
+```
 
 Three things a consumer should not do, because the API makes them unnecessary:
 
@@ -696,12 +696,12 @@ Three things a consumer should not do, because the API makes them unnecessary:
 Requirements: a C++20 compiler, CMake 3.20 or newer, and nothing else. There is no
 third-party runtime dependency, and the tests use a first-party harness.
 
-```@console
+```console
 cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ctest --test-dir build --output-on-failure -C Release
 cmake --install build --prefix /some/prefix
-```@
+```
 
 Options:
 
@@ -715,10 +715,10 @@ Options:
 
 A downstream project consumes the installed package with:
 
-```@cmake
+```cmake
 find_package(FacilityPolicyEngine CONFIG REQUIRED)
 target_link_libraries(my_target PRIVATE FacilityPolicyEngine::fpe)
-```@
+```
 
 ### Test layout
 
