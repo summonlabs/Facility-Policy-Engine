@@ -61,7 +61,6 @@ Debug and Release are both first-class configurations, and both must pass.
 A behavioural change needs a test that fails before the change and passes after it.
 Prefer a focused deterministic test over a broad flaky one. Randomised tests must be
 seeded, and the seed must be printed on failure so the run can be reproduced exactly.
-Tests must never rely on timeouts or on sleeping to pass; a hang is a defect to diagnose.
 Corruption, truncation, adversarial, boundary, replay, stale-generation, restart,
 multiprocess, and crash-consistency behaviour are part of the contract and are expected
 to be covered where the change affects them.
