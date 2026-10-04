@@ -1,7 +1,6 @@
 # Facility Policy Engine
 
-Facility Policy Engine is the deterministic facility-wide policy evaluation runtime of the
-Summon Software Labs Data Center Control Plane. It answers one question, and refuses to
+Facility Policy Engine is the deterministic facility-wide policy evaluation runtime. It answers one question, and refuses to
 answer any other:
 
 > **Given one exact published policy generation and one typed, generation-tagged set of
